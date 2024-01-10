@@ -18,7 +18,7 @@ SESSION = environ.get('SESSION', 'Media_search')
 API_ID = int(environ.get('API_ID', '3393749'))
 API_HASH = environ.get('API_HASH', 'a15a5954a1db54952eebd08ea6c68b71')
 BOT_TOKEN = environ.get('BOT_TOKEN', "6100891233:AAHo_OjnFWTdY_JewRdcqphxASAcAK1IHVg") #@dgfghgjbot
-BOT_TOKEN = environ.get('BOT_TOKEN', "5872747581:AAH7_XPCOCEVfbgUhepjJWlcOmj8wjDTjBk") #@jn_url_v3_bot
+# BOT_TOKEN = environ.get('BOT_TOKEN', "5872747581:AAH7_XPCOCEVfbgUhepjJWlcOmj8wjDTjBk") #@jn_url_v3_bot
 TG_BOT_WORKERS = int(environ.get('TG_BOT_WORKERS', '20'))
 PORT = environ.get("PORT", "8080")
 
