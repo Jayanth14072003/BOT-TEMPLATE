@@ -8,13 +8,12 @@ from pyrogram.enums import ParseMode
 import sys
 from datetime import datetime
 from config import *
-
 class Bot(Client):
     def __init__(self):
         super().__init__(
             name="Bot",
             api_hash=API_HASH,
-            api_id=APP_ID,
+            api_id=API_ID,
             plugins={
                 "root": "plugins"
             },
@@ -28,7 +27,7 @@ class Bot(Client):
         usr_bot_me = await self.get_me()
         self.uptime = datetime.now()
         self.set_parse_mode(ParseMode.HTML)
-        self.LOGGER(__name__).info(f"Bot Running..!\n")
+        self.LOGGER(__name__).info(f"Bot Running..!\n\nCreated by \nhttps://t.me/CodeXBotz")
         self.LOGGER(__name__).info(f""" 
         
                 ░░░░░██╗░█████╗░██╗░░░██╗
@@ -37,8 +36,8 @@ class Bot(Client):
                 ██╗░░██║██╔══██║░░╚██╔╝░░
                 ╚█████╔╝██║░░██║░░░██║░░░
                 ░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░
-                                                                        
-            BOT WORKING PROPERLY......!!""")
+
+                BOT WORKING PROPERLY......!!""")
         self.username = usr_bot_me.username
         #web-response
         app = web.AppRunner(await web_server())
@@ -48,6 +47,4 @@ class Bot(Client):
 
     async def stop(self, *args):
         await super().stop()
-        self.LOGGER(__name__).info("/nBot stopped.")
-
-Bot().run()
+        self.LOGGER(__name__).info("Bot stopped.")
