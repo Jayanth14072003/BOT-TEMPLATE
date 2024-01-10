@@ -5,7 +5,6 @@ from os import environ,getenv
 from logging.handlers import RotatingFileHandler
 
 LOG_FILE_NAME = "LegendBot.txt"
-
 logging.basicConfig(
     level=logging.INFO,
     format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
@@ -46,6 +45,7 @@ DOWNLOAD_LOCATION = "./DOWNLOADS"
 PICS = (environ.get('PICS', 'https://graph.org/file/4cf3f3c83e15e2b80e9f3.jpg')).split() #SAMPLE PIC
 
 # Admins, Channels & Users
+OWNER_ID = int(environ.get('OWNER_ID', '1061576483'))
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1061576483 5963138883').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '1061576483 5963138883').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
