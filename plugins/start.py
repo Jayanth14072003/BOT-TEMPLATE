@@ -1,5 +1,10 @@
 #Coded by KA18 the @legend580 💛❤️
 
+import logging
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 import os
 import asyncio
 from pyrogram import Client, filters, __version__
