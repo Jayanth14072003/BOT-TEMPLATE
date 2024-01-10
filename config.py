@@ -1,111 +1,69 @@
-#(©)CodeXBotz
-from os import environ
-import os
-import logging
+#Coded by KA18 the @legend580 💛❤️
+
+import re, os, logging
+from os import environ,getenv
 from logging.handlers import RotatingFileHandler
 
-#Bot token @Botfather
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "6601011494:AAGMR0i5tlCKITms_7rr2LzZmmAieD_eQ58")
-# TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "5872747581:AAH7_XPCOCEVfbgUhepjJWlcOmj8wjDTjBk")
+id_pattern = re.compile(r'^.\d+$')
+def is_enabled(value, default):
+    if value.lower() in ["true", "yes", "1", "enable", "y"]:
+        return True
+    elif value.lower() in ["false", "no", "0", "disable", "n"]:
+        return False
+    else:
+        return default
 
-#Your API ID from my.telegram.org
-APP_ID = int(os.environ.get("APP_ID", "3393749"))
+# Bot information
+SESSION = environ.get('SESSION', 'Media_search')
+API_ID = int(environ.get('API_ID', '3393749'))
+API_HASH = environ.get('API_HASH', 'a15a5954a1db54952eebd08ea6c68b71')
+BOT_TOKEN = environ.get('BOT_TOKEN', "6100891233:AAHo_OjnFWTdY_JewRdcqphxASAcAK1IHVg") #@dgfghgjbot
+BOT_TOKEN = environ.get('BOT_TOKEN', "5872747581:AAH7_XPCOCEVfbgUhepjJWlcOmj8wjDTjBk") #@jn_url_v3_bot
+TG_BOT_WORKERS = int(environ.get('TG_BOT_WORKERS', '20'))
+PORT = environ.get("PORT", "8080")
 
-#Your API Hash from my.telegram.org
-API_HASH = os.environ.get("API_HASH", "a15a5954a1db54952eebd08ea6c68b71")
+PICS = (environ.get('PICS', 'https://graph.org/file/4cf3f3c83e15e2b80e9f3.jpg')).split() #SAMPLE PIC
 
-#Your db channel Id
-CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1001693231644"))
+# Admins, Channels & Users
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1061576483 5963138883').split()]
+auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '1061576483 5963138883').split()]
+AUTH_USERS = (auth_users + ADMINS) if auth_users else []
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002048677793'))
+FILE_STORE_CHANNEL = int(environ.get('FILE_STORE_CHANNEL', '-1002048677793'))
 
-#Your log channel Id
-LOG_ID = int(os.environ.get("LOG_ID", "-1001881799737"))
+# MongoDB information
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Jayanna:Jayanna2023@yash.tm1c2bd.mongodb.net/?retryWrites=true&w=majority")
+DATABASE_NAME = environ.get('DATABASE_NAME', "TEST_DB")
 
-#OWNER ID
-OWNER_ID = int(os.environ.get("OWNER_ID", "1061576483"))
+# Others
+PROTECT_CONTENT = is_enabled((environ.get('PROTECT_CONTENT', "False")), False)
 
-# #shortenr
-# API = environ.get('API','eedc409c6457b8c783019e990dde8fd531b58eca')
-#Port
-PORT = os.environ.get("PORT", "8080")
+# Online Stream and Download
+NO_PORT = bool(environ.get('NO_PORT', False))
+APP_NAME = None
+if 'DYNO' in environ:
+    ON_HEROKU = True
+    APP_NAME = environ.get('APP_NAME')
+else:
+    ON_HEROKU = False
+BIND_ADRESS = str(getenv('WEB_SERVER_BIND_ADDRESS', '0.0.0.0'))
+FQDN = str(getenv('FQDN', BIND_ADRESS)) if not ON_HEROKU or getenv('FQDN') else APP_NAME+'.herokuapp.com'
+URL = "https://mj-filter-v01.onrender.com/".format(FQDN) if ON_HEROKU or NO_PORT else \
+    "https://mj-filter-v01.onrender.com/".format(FQDN, PORT)
+SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
+WORKERS = int(environ.get('WORKERS', '10'))
+SESSION_NAME = str(environ.get('SESSION_NAME', 'MJBot'))
+MULTI_CLIENT = False
+name = str(environ.get('name', 'MJhitz'))
+PING_INTERVAL = int(environ.get("PING_INTERVAL", "1200"))  # 20 minutes
+if 'DYNO' in environ:
+    ON_HEROKU = True
+    APP_NAME = str(getenv('APP_NAME'))
 
-#Database 
-DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://Jayanna:Jayanna2023@yash.tm1c2bd.mongodb.net/?retryWrites=true&w=majority")
-DB_NAME = os.environ.get("DATABASE_NAME", "New_Divya_Spandana")
-
-#force sub channel id, if you want enable force sub
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "0"))
-
-TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "20"))
-
-#start message
-START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
-try:
-    ADMINS=[]
-    for x in (os.environ.get("ADMINS", "1365052525 5963138883").split()):
-        ADMINS.append(int(x))
-except ValueError:
-        raise Exception("Your Admins list does not contain valid integers.")
-
-#Force sub message 
-FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to join in my Channel/Group to use me\n\nKindly Please join Channel</b>")
-
-#set your Custom Caption here, Keep None for Disable Custom Caption
-CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "<b><code>{filename}</code> \n\n𝐉𝐨𝐢𝐧 -> <a href='https://telegram.dog/link_serials'>𝐂𝐡𝐚𝐧𝐧𝐞𝐥</a></b>")
-
-#shortner
-# SHORTLINK_URL = environ.get('SHORTLINK_URL', 'omegalinks.in')
-# SHORTLINK_API = environ.get('SHORTLINK_API', '0af17d003ce7020eb85d2a54fe0f6ef50e770e40')
-
-#set True if you want to prevent users from forwarding files from bot
-PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "True") == "True" else False
-
-#Set true if you want Disable your Channel Posts Share button
-DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
-
-BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
-USER_REPLY_TEXT = "❌Don't send me messages directly I'm only File Share bot!"
-
-ADMINS.append(OWNER_ID)
-
-LOG_FILE_NAME = "filesharingbot.txt"
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
-    datefmt='%d-%b-%y %H:%M:%S',
-    handlers=[
-        RotatingFileHandler(
-            LOG_FILE_NAME,
-            maxBytes=50000000,
-            backupCount=10
-        ),
-        logging.StreamHandler()
-    ]
-)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-
-
-def LOGGER(name: str) -> logging.Logger:
-    return logging.getLogger(name)
-
-
-LOG_TEXT_P =  """#𝐍𝐞𝐰𝐔𝐬𝐞𝐫𝐊𝐒
-    
-<b>᚛› 𝐈𝐃 - <code>{}</code></b>
-<b>᚛› 𝐍𝐚𝐦𝐞 - {}</b>
-"""
-
-FOMET = """
-♡○♡○♡●♡○♡○♡●♡○♡○♡●♡○♡○♡
-
-                  𝑈𝙥𝙻𝐨ɐ𝘥𝕖𝘥 𝙱𝘆👇
-⭑⭑⭑★✪ @Dj_Serials_Bot ✪★⭑⭑⭑
-
-                        {}
-
-𝑫๏𝒘𝗻𝙻๏d  𝗟𝖎𝙣𝐤👇
-{}
-{}
-
-𝐡𝔬𝘸  𝗧𝐨  𝑫๏𝒘𝗻𝙻๏d - @how_view
-  """
+else:
+    ON_HEROKU = False
+HAS_SSL=bool(getenv('HAS_SSL',False))
+if HAS_SSL:
+    URL = "https://mj-filter-v01.onrender.com/".format(FQDN)
+else:
+    URL = "https://mj-filter-v01.onrender.com/".format(FQDN)
