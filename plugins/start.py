@@ -23,3 +23,15 @@ async def start_command(client: Client, message: Message):
             text = script.START_MSG.format(message.from_user.mention if message.from_user else message.chat.title),
             disable_web_page_preview = True
         )
+
+@Bot.on_message(filters.command('auth') & filters.user(OWNER_ID))
+async def add_auth(bot, update):
+    cmd = update.command
+    if len(cmd) == 1:
+        return await update.reply(text = "Send the command properly.\nExample: <code>/auth 1061576483</code>")
+    elif len(cmd) == 2:
+        try:
+            auth_id = int(cmd[1].strip())
+            await update.reply(text = f"<b>New User Adde🎉.\n User ID - {auth_id}</b>")
+        except:
+            await update.reply(text = "Invalid User ID, please chech again and resend.")
