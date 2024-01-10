@@ -13,7 +13,7 @@ from Script import script
 @Bot.on_message(filters.command('start') & filters.private)
 async def start_command(client: Client, message: Message):
     a = await message.reply_text("Processing....")
-    async delete(a)
+    await delete(a)
     await client.send_message(
             text = script.START_MSG.format(
                 first = message.from_user.first_name,
