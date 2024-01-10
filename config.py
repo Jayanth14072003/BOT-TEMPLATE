@@ -42,7 +42,7 @@ BOT_TOKEN = environ.get('BOT_TOKEN', "6100891233:AAHo_OjnFWTdY_JewRdcqphxASAcAK1
 # BOT_TOKEN = environ.get('BOT_TOKEN', "5872747581:AAH7_XPCOCEVfbgUhepjJWlcOmj8wjDTjBk") #@jn_url_v3_bot
 TG_BOT_WORKERS = int(environ.get('TG_BOT_WORKERS', '20'))
 PORT = environ.get("PORT", "8080")
-
+DOWNLOAD_LOCATION = "./DOWNLOADS"
 PICS = (environ.get('PICS', 'https://graph.org/file/4cf3f3c83e15e2b80e9f3.jpg')).split() #SAMPLE PIC
 
 # Admins, Channels & Users
