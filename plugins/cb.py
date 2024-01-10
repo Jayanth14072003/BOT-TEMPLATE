@@ -1,12 +1,12 @@
 #Coded by KA18 the @legend580 💛❤️
 
-from pyrogram import __version__
+import pyrogram
 from bot import Bot
 import time
 import asyncio
 from config import *
 from datetime import datetime, timedelta
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from pyrogram.types import Message, CallbackQuery
 
 @Bot.on_callback_query()
 async def cb_handler(client: Bot, query: CallbackQuery):
